@@ -47,16 +47,26 @@ jobs:
       contents: read
       id-token: write    # needed for OIDC to npm
 
+    env:
+      # Force the action runtime (checkout, setup-node, etc.) onto Node.js 24
+      # so we're ready for the September 2026 Node.js 20 removal from runners.
+      # Doesn't affect what version OUR build code runs on — that's controlled
+      # by the setup-node step below.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
     steps:
       - name: Checkout (full history so the tag commit is present)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node 20
+      - name: Set up Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Node 22 is the latest LTS; n8n itself runs Node 20+ so any
+          # consumer of our published tarball will work. Pin to LTS to get
+          # security patches but avoid odd-numbered (non-LTS) releases.
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
       - name: Verify tag matches package.json version
