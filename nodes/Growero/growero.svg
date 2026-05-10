@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60" role="img" aria-label="Growero">
+  <defs>
+    <linearGradient id="growero-grad" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8a51ff"/>
+      <stop offset="100%" stop-color="#39b2ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="60" height="60" rx="14" fill="url(#growero-grad)"/>
+  <path d="M37.5 22.5h-7.6v4.6h3.7c-.3 2.3-2.4 3.9-4.9 3.9-2.9 0-5.3-2.4-5.3-5.5s2.4-5.5 5.3-5.5c1.4 0 2.6.5 3.6 1.4l3.4-3.4c-1.9-1.7-4.3-2.7-7-2.7-5.7 0-10.4 4.6-10.4 10.2s4.7 10.2 10.4 10.2c5.4 0 9.5-3.9 9.5-9.6 0-1.2-.2-2.4-.4-3.6h-.3z" fill="#fff"/>
+  <circle cx="44" cy="18" r="3.5" fill="#fff" opacity="0.85"/>
+</svg>
