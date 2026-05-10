@@ -1,0 +1,99 @@
+name: Bug report
+description: Something is broken in n8n-nodes-growero
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please fill in every field — without versions and a
+        repro I can't even start. Issues missing this info will be closed with
+        a pointer back to this template.
+
+  - type: input
+    id: package_version
+    attributes:
+      label: n8n-nodes-growero version
+      description: Run `npm ls n8n-nodes-growero` inside your n8n install dir, or check the Settings → Community Nodes panel.
+      placeholder: "e.g. 0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: n8n_version
+    attributes:
+      label: n8n version
+      description: Visible in the bottom-left of your n8n UI, or via `n8n --version` on the host.
+      placeholder: "e.g. 1.62.5"
+    validations:
+      required: true
+
+  - type: input
+    id: node_version
+    attributes:
+      label: Node.js version
+      description: Output of `node --version` on the host running n8n.
+      placeholder: "e.g. v20.18.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: How are you running n8n?
+      options:
+        - Docker (self-hosted)
+        - npm install (self-hosted)
+        - n8n Cloud
+        - Other (please describe in repro)
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened?
+      description: Describe the bug. Include the exact error message if any.
+      placeholder: "I tried to ... but instead I got ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal repro steps
+      description: |
+        The smallest possible workflow that reproduces the bug.
+        Use n8n's "Download" workflow JSON and paste here. Redact any
+        credentials before submitting.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        Paste any error output from n8n's execution view. Redact tokens,
+        keys, and emails before submitting.
+      render: text
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: I have redacted all API keys, tokens, emails, and personal data from the repro and logs.
+          required: true
+        - label: This is a bug in the n8n-nodes-growero package — not a feature request for Growero itself (those go to https://growero.io).
+          required: true

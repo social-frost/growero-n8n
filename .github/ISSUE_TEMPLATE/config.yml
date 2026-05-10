@@ -1,0 +1,20 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature requests for Growero (the platform)
+    url: https://growero.io
+    about: |
+      Want a new platform supported, an AI feature added, analytics surfaced?
+      That's a Growero product request — not a node bug. Please share via the
+      product feedback form on growero.io. Once the feature exists in the
+      public API, this node will wrap it.
+  - name: Security vulnerability
+    url: https://github.com/social-frost/growero-n8n/security/policy
+    about: |
+      Found a security issue? Don't open a public issue — email
+      security@growero.io. See SECURITY.md for the responsible-disclosure
+      process.
+  - name: Help / general questions
+    url: mailto:support@growero.io
+    about: |
+      Stuck installing the node, configuring credentials, or building a
+      workflow? Email support@growero.io rather than opening a GitHub issue.
