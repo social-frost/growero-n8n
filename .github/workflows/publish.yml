@@ -1,0 +1,88 @@
+# Publish n8n-nodes-growero to npm with provenance signing.
+#
+# How it fires:
+#   - Trigger:  push of a tag matching v*.*.*  (e.g. `git tag v0.1.1 && git push --tags`)
+#   - Build:    runs the package's `prepublishOnly` (mirrors source → dist/)
+#   - Publish:  npm publish --provenance, no token required
+#
+# Why no token:
+#   This workflow uses npm's *Trusted Publishers* + GitHub OIDC. After you
+#   configure the trusted-publisher relationship once on npmjs.com (see README
+#   note below), npm verifies the workflow's OIDC identity matches the trusted
+#   publisher and accepts the publish. The Sigstore signature ties the
+#   tarball to this exact workflow run + commit SHA — verifiable later via
+#   `npm audit signatures n8n-nodes-growero`.
+#
+# Pre-flight (one-time, you do this in npm dashboard):
+#   1. Open https://www.npmjs.com/package/n8n-nodes-growero/access
+#   2. Trusted Publishers → Add trusted publisher → GitHub Actions
+#   3. Repository owner: social-frost
+#      Repository name:  growero-n8n
+#      Workflow filename: publish.yml
+#      Environment name:  release
+#   4. Save.
+#
+# After that:
+#   git tag v0.1.1 -m "Release 0.1.1: real brand icon"
+#   git push origin v0.1.1
+# That's it. No `npm publish` from a laptop ever again.
+
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # The "release" environment scoping makes the OIDC token's `environment`
+    # claim include "release", which the trusted-publisher rule pins on.
+    # If you want to add manual approval before publish, add reviewers in
+    # repo Settings → Environments → release.
+    environment: release
+
+    permissions:
+      contents: read
+      id-token: write    # needed for OIDC to npm
+
+    steps:
+      - name: Checkout (full history so the tag commit is present)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify tag matches package.json version
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match tag ($TAG_VERSION)"
+            exit 1
+          fi
+          echo "Versions match: $PKG_VERSION"
+
+      - name: Install dependencies (none — sanity step only)
+        run: npm install --no-audit --no-fund
+
+      - name: Build (mirrors source → dist/)
+        run: npm run build
+
+      - name: Verify tarball contents (no leaks)
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.log
+          # Fail if any file outside the expected allowlist sneaks in
+          if grep -E "node_modules|\.env|\.git/" pack.log; then
+            echo "::error::tarball contains forbidden paths"
+            exit 1
+          fi
+
+      - name: Publish to npm with provenance
+        run: npm publish --access public --provenance

@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-growero",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for Growero — schedule social posts, list scheduled, fetch analytics from any workflow. Supports LinkedIn, X, Facebook, Instagram, Threads, Bluesky, TikTok, Reddit, Pinterest.",
   "license": "MIT",
   "author": {
@@ -48,7 +48,8 @@
     "SECURITY.md"
   ],
   "scripts": {
-    "build": "mkdir -p dist/nodes/Growero dist/credentials && cp -R nodes/Growero/* dist/nodes/Growero/ && cp -R credentials/* dist/credentials/",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && mkdir -p dist/nodes/Growero dist/credentials && cp -R nodes/Growero/* dist/nodes/Growero/ && cp -R credentials/* dist/credentials/",
     "prepublishOnly": "npm run build",
     "lint": "echo 'plug eslint here when ready'"
   },

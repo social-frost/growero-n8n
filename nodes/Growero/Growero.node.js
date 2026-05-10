@@ -13,7 +13,7 @@ class Growero {
     this.description = {
       displayName: 'Growero',
       name: 'growero',
-      icon: 'file:growero.svg',
+      icon: 'file:growero.png',
       group: ['output'],
       version: 1,
       description: 'Read and write Growero posts via the public API.',
