@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-growero",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "n8n community node for Growero — schedule social posts, list scheduled, fetch analytics from any workflow. Supports LinkedIn, X, Facebook, Instagram, Threads, Bluesky, TikTok, Reddit, Pinterest.",
   "license": "MIT",
   "author": {
@@ -37,7 +37,8 @@
       "dist/credentials/GroweroApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Growero/Growero.node.js"
+      "dist/nodes/Growero/Growero.node.js",
+      "dist/nodes/Growero/GroweroTrigger.node.js"
     ]
   },
   "files": [
